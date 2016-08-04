@@ -21,4 +21,5 @@
     <string name="bottom_bar_text">Bottom bar</string>
     <string name="snackbar_text">This should move the bottom bar</string>
     <string name="snackbar_action_text">Dismiss</string>
+    <string name="sample_description">Pressing the FAB in the bottom right will show a Snackbar.</string>
 </resources>
