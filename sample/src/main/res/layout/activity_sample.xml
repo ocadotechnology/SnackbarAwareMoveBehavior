@@ -54,8 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:padding="@dimen/bottom_bar_margin"
         android:background="@color/bottomBarColor"
+        android:padding="@dimen/bottom_bar_margin"
         app:layout_behavior="com.ocadotechnology.snackbarawaremovebehavior.SnackbarAwareMoveBehavior">
 
         <TextView

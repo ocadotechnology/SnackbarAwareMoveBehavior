@@ -1,74 +1,74 @@
 subprojects { project ->
 
-  apply plugin: 'checkstyle'
+    apply plugin: 'checkstyle'
 
-  checkstyle {
-    toolVersion '7.0'
-  }
-
-  task checkstyle(type: Checkstyle) {
-    group "Verification"
-
-    configFile rootProject.file('config/checkstyle/checkstyle.xml')
-    source 'src'
-    include '**/*.java'
-    ignoreFailures false
-    showViolations true
-
-    classpath = files()
-
-    reports {
-      xml.enabled = true
-      html.enabled true
+    checkstyle {
+        toolVersion '7.0'
     }
-  }
 
-  apply plugin: 'findbugs'
+    task checkstyle(type: Checkstyle) {
+        group "Verification"
 
-  findbugs {
-    toolVersion '3.0.1'
-  }
+        configFile rootProject.file('config/checkstyle/checkstyle.xml')
+        source 'src'
+        include '**/*.java'
+        ignoreFailures false
+        showViolations true
 
-  task findbugs(type: FindBugs, dependsOn: 'assemble') {
-    group "Verification"
+        classpath = files()
 
-    excludeFilter = rootProject.file('config/findbugs/findbugs-filter.xml')
-    classes = files(project.file('build/intermediates/classes'))
-    source = fileTree('src/main/java/')
-    ignoreFailures = false
-    effort = "max"
-    reportLevel = "high"
-
-    classpath = files()
-
-    reports {
-      xml.enabled = false
-      html.enabled = true
+        reports {
+            xml.enabled = true
+            html.enabled true
+        }
     }
-  }
 
-  apply plugin: 'pmd'
+    apply plugin: 'findbugs'
 
-  pmd {
-    toolVersion '5.5.1'
-  }
-
-  task pmd(type: Pmd) {
-    group 'verification'
-
-    ruleSetFiles = rootProject.files('config/pmd/pmd-ruleset.xml')
-    source = fileTree('src/main/java/')
-
-    reports {
-      xml.enabled = false
-      html.enabled = true
+    findbugs {
+        toolVersion '3.0.1'
     }
-  }
 
-  afterEvaluate {
-    check.dependsOn('checkstyle')
-    check.dependsOn('findbugs')
-    check.dependsOn('pmd')
-  }
+    task findbugs(type: FindBugs, dependsOn: 'assemble') {
+        group "Verification"
+
+        excludeFilter = rootProject.file('config/findbugs/findbugs-filter.xml')
+        classes = files(project.file('build/intermediates/classes'))
+        source = fileTree('src/main/java/')
+        ignoreFailures = false
+        effort = "max"
+        reportLevel = "high"
+
+        classpath = files()
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    apply plugin: 'pmd'
+
+    pmd {
+        toolVersion '5.5.1'
+    }
+
+    task pmd(type: Pmd) {
+        group 'verification'
+
+        ruleSetFiles = rootProject.files('config/pmd/pmd-ruleset.xml')
+        source = fileTree('src/main/java/')
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    afterEvaluate {
+        check.dependsOn('checkstyle')
+        check.dependsOn('findbugs')
+        check.dependsOn('pmd')
+    }
 
 }

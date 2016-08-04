@@ -45,8 +45,6 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricGradleTestRunner.class)
 public class SnackbarAwareMoveBehaviorTest {
 
-    private SnackbarAwareMoveBehavior behavior;
-
     @Mock
     CoordinatorLayout coordinator;
 
@@ -58,6 +56,8 @@ public class SnackbarAwareMoveBehaviorTest {
 
     @Mock
     ObjectAnimator animator;
+
+    private SnackbarAwareMoveBehavior behavior;
 
     @Before
     @SuppressLint("PrivateResource")
