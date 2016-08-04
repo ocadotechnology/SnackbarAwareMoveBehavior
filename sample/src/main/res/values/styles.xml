@@ -25,6 +25,8 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="snackbarBuilderStyle">@style/SampleSnackbarStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -35,5 +37,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="SampleSnackbarStyle" parent="SnackbarBuilder">
+        <item name="snackbarBuilder_parentViewId">@id/coordinator</item>
+        <item name="snackbarBuilder_duration">shortTime</item>
+    </style>
 
 </resources>

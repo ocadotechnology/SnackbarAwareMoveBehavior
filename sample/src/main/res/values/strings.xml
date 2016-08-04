@@ -19,4 +19,6 @@
 <resources>
     <string name="app_name">SnackbarAwareMoveBehavior</string>
     <string name="bottom_bar_text">Bottom bar</string>
+    <string name="snackbar_text">This should move the bottom bar</string>
+    <string name="snackbar_action_text">Dismiss</string>
 </resources>
