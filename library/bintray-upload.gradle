@@ -26,14 +26,14 @@ publish {
     userOrg = 'andrewlord1990'
 
     groupId = 'com.ocadotechnology'
-    artifactId = 'SnackbarMoveBehavior'
-    uploadName = 'SnackbarMoveBehavior'
+    artifactId = 'SnackbarAwareMoveBehavior'
+    uploadName = 'SnackbarAwareMoveBehavior'
 
     publishVersion = rootProject.ext.generateVersionName()
 
     desc = ''
 
-    website = 'https://github.com/ocadotechnology/SnackbarMoveBehavior'
+    website = 'https://github.com/ocadotechnology/SnackbarAwareMoveBehavior'
 
     licences = ["Apache-2.0"]
 
