@@ -1,0 +1,63 @@
+/*
+ * Copyright (C) 2016 Ocado Innovation Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ *  an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ *  See the License for the specific language governing permissions and limitations under the License.
+ */
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1x'
+        classpath 'com.novoda:bintray-release:0.3.4'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+apply from: 'quality-checks.gradle'
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    versionMajor = 0
+    versionMinor = 1
+    versionPatch = 0
+
+    targetSdk = 24
+    compileSdk = 24
+    minSdk = 7
+
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
+    targetCompatibilityVersion = JavaVersion.VERSION_1_7
+
+    generateVersionCode = {
+        def minSdkPart = String.format("%02d", rootProject.ext.minSdk)
+        def majorPart = String.format("%01d", rootProject.ext.versionMajor)
+        def minorPart = String.format("%03d", rootProject.ext.versionMinor)
+        def patchPart = String.format("%03d", rootProject.ext.versionPatch)
+        return "${minSdkPart}${majorPart}${minorPart}${patchPart}".toInteger()
+    }
+
+    generateVersionName = {
+        return "${rootProject.ext.versionMajor}.${rootProject.ext.versionMinor}.${rootProject.ext.versionPatch}"
+    }
+}
