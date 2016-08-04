@@ -35,6 +35,7 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
 
     ObjectAnimator translationAnimator;
     private float verticalTranslation;
+    private View[] viewsToAnimate;
 
     public SnackbarAwareMoveBehavior() {
         super();
@@ -42,6 +43,10 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
 
     public SnackbarAwareMoveBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public ViewProvider getAnimatingViewsProvider() {
+        return DefaultViewProvider.INSTANCE;
     }
 
     @Override
@@ -72,10 +77,19 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void translateView(View view, float targetVerticalTranslation) {
-        float currentVerticalTranslation = view.getTranslationY();
-
         cancelAnimatorIfRunning();
 
+        if (viewsToAnimate == null) {
+            viewsToAnimate = getAnimatingViewsProvider().getViews(view);
+        }
+
+        for (View viewToAnimate : viewsToAnimate) {
+            animateView(viewToAnimate, targetVerticalTranslation);
+        }
+    }
+
+    private void animateView(View view, float targetVerticalTranslation) {
+        float currentVerticalTranslation = view.getTranslationY();
         if (shouldAnimateTranslation(view, targetVerticalTranslation,
                 currentVerticalTranslation)) {
             updateTranslationWithAnimation(view, targetVerticalTranslation,
@@ -136,6 +150,19 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
         }
 
         return minOffset;
+    }
+
+    interface ViewProvider {
+        View[] getViews(View view);
+    }
+
+    static final class DefaultViewProvider implements ViewProvider {
+        private static final DefaultViewProvider INSTANCE = new DefaultViewProvider();
+
+        @Override
+        public View[] getViews(View viewGroup) {
+            return new View[] {viewGroup};
+        }
     }
 
 }
