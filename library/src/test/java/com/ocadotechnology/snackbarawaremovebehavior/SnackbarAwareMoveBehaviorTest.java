@@ -64,7 +64,7 @@ public class SnackbarAwareMoveBehaviorTest {
     public void before() {
         MockitoAnnotations.initMocks(this);
 
-        SnackbarAwareMoveBehavior.BEHAVIOR_ENABLED = true;
+        setBehaviorEnabled(true);
         RuntimeEnvironment.application.setTheme(R.style.Theme_AppCompat_Light_DarkActionBar);
         behavior = new SnackbarAwareMoveBehavior();
     }
@@ -79,7 +79,7 @@ public class SnackbarAwareMoveBehaviorTest {
 
     @Test
     public void givenBehaviorDisabled_whenLayoutDependsOn_thenFalse() {
-        SnackbarAwareMoveBehavior.BEHAVIOR_ENABLED = false;
+        setBehaviorEnabled(false);
         CoordinatorLayout coordinatorLayout = new CoordinatorLayout(RuntimeEnvironment.application);
         View child = new View(RuntimeEnvironment.application);
         View dependency = new View(RuntimeEnvironment.application);
@@ -102,7 +102,7 @@ public class SnackbarAwareMoveBehaviorTest {
 
     @Test
     public void givenBehaviourDisabled_whenOnDependentViewChanged_thenFalse() {
-        SnackbarAwareMoveBehavior.BEHAVIOR_ENABLED = false;
+        setBehaviorEnabled(false);
         CoordinatorLayout coordinatorLayout = new CoordinatorLayout(RuntimeEnvironment.application);
         View child = new View(RuntimeEnvironment.application);
         View dependency = new View(RuntimeEnvironment.application);
@@ -139,7 +139,7 @@ public class SnackbarAwareMoveBehaviorTest {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Test
-    public void givenTranslationDistanceLessThanTwoThirdsViewHeight_whenOnDependentViewChanged_thenTranslateView() {
+    public void givenTranslationDistanceLessThanLimit_whenOnDependentViewChanged_thenTranslateView() {
         View child = new View(RuntimeEnvironment.application);
         child.setBottom(200);
         child.setTop(0);
@@ -153,7 +153,7 @@ public class SnackbarAwareMoveBehaviorTest {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Test
-    public void givenTranslationDistanceMoreThanTwoThirdsViewHeight_whenOnDependentViewChanged_thenAnimationTranslationOfView() {
+    public void givenTranslationDistanceMoreThanLimit_whenOnDependentViewChanged_thenAnimationTranslationOfView() {
         View child = new View(RuntimeEnvironment.application);
         child.setBottom(150);
         child.setTop(0);
@@ -210,6 +210,10 @@ public class SnackbarAwareMoveBehaviorTest {
         when(coordinator.doViewsOverlap(child, snackbarLayout)).thenReturn(true);
         when(snackbarLayout.getTranslationY()).thenReturn(-20f);
         when(snackbarLayout.getHeight()).thenReturn(90);
+    }
+
+    private void setBehaviorEnabled(boolean enabled) {
+        SnackbarAwareMoveBehavior.BEHAVIOR_ENABLED = enabled;
     }
 }
 

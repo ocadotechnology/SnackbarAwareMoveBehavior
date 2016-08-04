@@ -6,4 +6,9 @@
     <Match>
         <Class name="~.*\.Manifest\$.*"/>
     </Match>
+    <Match>
+        <Class name="com.ocadotechnology.snackbarawaremovebehavior.SnackbarAwareMoveBehaviorTest"/>
+        <Method name="setBehaviorEnabled"/>
+        <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"/>
+    </Match>
 </FindBugsFilter>
