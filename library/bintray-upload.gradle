@@ -23,15 +23,15 @@ if (propertiesFile.exists()) {
 }
 
 publish {
-    userOrg = 'andrewlord1990'
+    userOrg = 'ocadotechnology'
 
     groupId = 'com.ocadotechnology'
-    artifactId = 'SnackbarAwareMoveBehavior'
+    artifactId = 'snackbar-aware-move-behavior'
     uploadName = 'SnackbarAwareMoveBehavior'
 
     publishVersion = rootProject.ext.generateVersionName()
 
-    desc = ''
+    desc = 'Allow views within a CoordinatorLayout to move out the way when a Snackbar is shown.'
 
     website = 'https://github.com/ocadotechnology/SnackbarAwareMoveBehavior'
 
