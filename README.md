@@ -11,20 +11,18 @@ Within the Android Design Support library there is a `Snackbar` class, which sho
 
 ## Download
 
-The library is currently in development, however, once it has been released it will be available via Gradle on Bintray (JCenter).
+Download via Gradle:
+```groovy
+compile 'com.ocadotechnology:snackbar-aware-move-behavior:0.1.0'
+```
 
-<!--Download via Gradle:-->
-<!--```groovy-->
-<!--compile 'com.ocadotechnology:snackbarawaremovebehavior:0.1.0'-->
-<!--```-->
+The library is available on Bintray (JCenter).
 
-<!--The library is available on Bintray (JCenter).-->
-
-<!--```groovy-->
-<!--repositories {-->
-<!--  jcenter()-->
-<!--}-->
-<!--```-->
+```groovy
+repositories {
+  jcenter()
+}
+```
 
 ## Usage
 
