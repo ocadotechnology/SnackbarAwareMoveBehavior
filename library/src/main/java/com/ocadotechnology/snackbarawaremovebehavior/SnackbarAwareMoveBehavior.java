@@ -17,9 +17,7 @@
 package com.ocadotechnology.snackbarawaremovebehavior;
 
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -30,7 +28,6 @@ import java.util.List;
 
 public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> {
 
-    static boolean BEHAVIOR_ENABLED = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     private static final float FRACTION_OF_HEIGHT_AT_WHICH_TO_ANIMATE = 0.667f;
 
     ObjectAnimator translationAnimator;
@@ -51,16 +48,15 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-        return BEHAVIOR_ENABLED && dependency instanceof Snackbar.SnackbarLayout;
+        return dependency instanceof Snackbar.SnackbarLayout;
     }
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, View child,
                                           View dependency) {
-        return BEHAVIOR_ENABLED && updateTranslationForSnackbar(parent, child);
+        return updateTranslationForSnackbar(parent, child);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private boolean updateTranslationForSnackbar(CoordinatorLayout parent, View view) {
         if (view.getVisibility() != View.VISIBLE) {
             return false;
@@ -75,7 +71,6 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
         return true;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void translateView(View view, float targetVerticalTranslation) {
         cancelAnimatorIfRunning();
 
@@ -100,14 +95,12 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
         verticalTranslation = targetVerticalTranslation;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void cancelAnimatorIfRunning() {
         if (translationAnimator != null && translationAnimator.isRunning()) {
             translationAnimator.cancel();
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void updateTranslationWithAnimation(View view, float targetVerticalTranslation,
                                                 float currentVerticalTranslation) {
         if (translationAnimator == null) {
@@ -116,7 +109,6 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
         translationAnimator.start();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void createAnimator(View view, float targetVerticalTranslation,
                                 float currentVerticalTranslation) {
         translationAnimator = ObjectAnimator.ofFloat(view, "translationY",
@@ -136,7 +128,6 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
         return verticalTranslation == targetVerticalTranslation;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private float getVerticalTranslationForSnackbar(CoordinatorLayout parent,
                                                     View view) {
         float minOffset = 0;

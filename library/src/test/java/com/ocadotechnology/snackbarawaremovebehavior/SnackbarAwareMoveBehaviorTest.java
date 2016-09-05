@@ -18,8 +18,6 @@ package com.ocadotechnology.snackbarawaremovebehavior;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
@@ -64,7 +62,6 @@ public class SnackbarAwareMoveBehaviorTest {
     public void before() {
         MockitoAnnotations.initMocks(this);
 
-        setBehaviorEnabled(true);
         RuntimeEnvironment.application.setTheme(R.style.Theme_AppCompat_Light_DarkActionBar);
         behavior = new SnackbarAwareMoveBehavior();
     }
@@ -78,8 +75,7 @@ public class SnackbarAwareMoveBehaviorTest {
     }
 
     @Test
-    public void givenBehaviorDisabled_whenLayoutDependsOn_thenFalse() {
-        setBehaviorEnabled(false);
+    public void givenView_whenLayoutDependsOn_thenFalse() {
         CoordinatorLayout coordinatorLayout = new CoordinatorLayout(RuntimeEnvironment.application);
         View child = new View(RuntimeEnvironment.application);
         View dependency = new View(RuntimeEnvironment.application);
@@ -90,7 +86,7 @@ public class SnackbarAwareMoveBehaviorTest {
     }
 
     @Test
-    public void givenBehaviorEnabledAndSnackbarLayout_whenLayoutDependsOn_thenTrue() {
+    public void givenSnackbarLayout_whenLayoutDependsOn_thenTrue() {
         CoordinatorLayout coordinatorLayout = new CoordinatorLayout(RuntimeEnvironment.application);
         View child = new View(RuntimeEnvironment.application);
         Snackbar.SnackbarLayout dependency = new Snackbar.SnackbarLayout(RuntimeEnvironment.application);
@@ -101,8 +97,7 @@ public class SnackbarAwareMoveBehaviorTest {
     }
 
     @Test
-    public void givenBehaviourDisabled_whenOnDependentViewChanged_thenFalse() {
-        setBehaviorEnabled(false);
+    public void givenView_whenOnDependentViewChanged_thenFalse() {
         CoordinatorLayout coordinatorLayout = new CoordinatorLayout(RuntimeEnvironment.application);
         View child = new View(RuntimeEnvironment.application);
         View dependency = new View(RuntimeEnvironment.application);
@@ -137,7 +132,6 @@ public class SnackbarAwareMoveBehaviorTest {
         Assertions.assertThat(actual).isFalse();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Test
     public void givenTranslationDistanceLessThanLimit_whenOnDependentViewChanged_thenTranslateView() {
         View child = new View(RuntimeEnvironment.application);
@@ -151,7 +145,6 @@ public class SnackbarAwareMoveBehaviorTest {
         assertThat(child).hasTranslationY(-110f);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Test
     public void givenTranslationDistanceMoreThanLimit_whenOnDependentViewChanged_thenAnimationTranslationOfView() {
         View child = new View(RuntimeEnvironment.application);
@@ -171,7 +164,6 @@ public class SnackbarAwareMoveBehaviorTest {
         assertThat(child).hasTranslationY(-110f);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Test
     public void givenAlreadyTranslated_whenOnDependentViewChanged_thenFalse() {
         View child = new View(RuntimeEnvironment.application);
@@ -185,7 +177,6 @@ public class SnackbarAwareMoveBehaviorTest {
         Assertions.assertThat(actual).isFalse();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Test
     public void givenAnimatorAlreadyStarted_whenOnDependentViewChanged_thenAnimatorCancelled() {
         View child = new View(RuntimeEnvironment.application);
@@ -202,7 +193,6 @@ public class SnackbarAwareMoveBehaviorTest {
         verify(animator).start();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupCoordinatorLayout(View child) {
         List<View> dependencies = new ArrayList<>();
         dependencies.add(snackbarLayout);
@@ -210,10 +200,6 @@ public class SnackbarAwareMoveBehaviorTest {
         when(coordinator.doViewsOverlap(child, snackbarLayout)).thenReturn(true);
         when(snackbarLayout.getTranslationY()).thenReturn(-20f);
         when(snackbarLayout.getHeight()).thenReturn(90);
-    }
-
-    private void setBehaviorEnabled(boolean enabled) {
-        SnackbarAwareMoveBehavior.BEHAVIOR_ENABLED = enabled;
     }
 }
 
