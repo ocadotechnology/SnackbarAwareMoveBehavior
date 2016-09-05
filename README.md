@@ -6,7 +6,7 @@
 [![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=15)
 [ ![Download](https://api.bintray.com/packages/ocadotechnology/maven/SnackbarAwareMoveBehavior/images/download.svg) ](https://bintray.com/ocadotechnology/maven/SnackbarAwareMoveBehavior/_latestVersion)
 
-Within the Android Design Support library there is a `Snackbar` class, which shows a nice message at the bottom of your app screen. However, you may have another view occupating that area of the screen. This library allows you to apply a behaviour to any view within a `CoordinatorLayout` with the `Snackbar`, so that the view slides upwards out of the way and then returns after the `Snackbar` is dismissed.
+Within the Android Design Support library there is a `Snackbar` class, which shows a nice message at the bottom of your app screen. However, you may have another view occupying that area of the screen. This library allows you to apply a behaviour to any view within a `CoordinatorLayout` with the `Snackbar`, so that the view slides upwards out of the way and then returns after the `Snackbar` is dismissed.
 
 
 ## Download
