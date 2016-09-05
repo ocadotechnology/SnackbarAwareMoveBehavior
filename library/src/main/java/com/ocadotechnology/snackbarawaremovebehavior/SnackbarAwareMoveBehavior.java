@@ -45,7 +45,7 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
         super(context, attrs);
     }
 
-    public ViewProvider getAnimatingViewsProvider() {
+    protected ViewProvider getAnimatingViewsProvider() {
         return DefaultViewProvider.INSTANCE;
     }
 
@@ -152,11 +152,11 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
         return minOffset;
     }
 
-    interface ViewProvider {
+    public interface ViewProvider {
         View[] getViews(View view);
     }
 
-    static final class DefaultViewProvider implements ViewProvider {
+    private static final class DefaultViewProvider implements ViewProvider {
         private static final DefaultViewProvider INSTANCE = new DefaultViewProvider();
 
         @Override
