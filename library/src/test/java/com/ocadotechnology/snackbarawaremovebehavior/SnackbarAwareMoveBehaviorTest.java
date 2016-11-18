@@ -16,11 +16,9 @@
 
 package com.ocadotechnology.snackbarawaremovebehavior;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.util.AttributeSet;
 import android.view.View;
 
 import org.assertj.core.api.Assertions;
@@ -29,7 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
@@ -37,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.android.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -49,12 +45,6 @@ public class SnackbarAwareMoveBehaviorTest {
     @Mock
     Snackbar.SnackbarLayout snackbarLayout;
 
-    @Mock
-    AttributeSet attributeSet;
-
-    @Mock
-    ObjectAnimator animator;
-
     private SnackbarAwareMoveBehavior behavior;
 
     @Before
@@ -64,14 +54,6 @@ public class SnackbarAwareMoveBehaviorTest {
 
         RuntimeEnvironment.application.setTheme(R.style.Theme_AppCompat_Light_DarkActionBar);
         behavior = new SnackbarAwareMoveBehavior();
-    }
-
-    @Test
-    public void whenCreatedFromContextAndAttributeSet_thenSetupCorrectly() {
-        SnackbarAwareMoveBehavior behavior = new SnackbarAwareMoveBehavior(
-                RuntimeEnvironment.application, attributeSet);
-
-        assertThat(behavior.translationAnimator).isNull();
     }
 
     @Test
@@ -133,7 +115,7 @@ public class SnackbarAwareMoveBehaviorTest {
     }
 
     @Test
-    public void givenTranslationDistanceLessThanLimit_whenOnDependentViewChanged_thenTranslateView() {
+    public void whenOnDependentViewChanged_thenTranslateView() {
         View child = new View(RuntimeEnvironment.application);
         child.setBottom(200);
         child.setTop(0);
@@ -142,25 +124,6 @@ public class SnackbarAwareMoveBehaviorTest {
         boolean actual = behavior.onDependentViewChanged(coordinator, child, snackbarLayout);
 
         Assertions.assertThat(actual).isTrue();
-        assertThat(child).hasTranslationY(-110f);
-    }
-
-    @Test
-    public void givenTranslationDistanceMoreThanLimit_whenOnDependentViewChanged_thenAnimationTranslationOfView() {
-        View child = new View(RuntimeEnvironment.application);
-        child.setBottom(150);
-        child.setTop(0);
-        setupCoordinatorLayout(child);
-
-        Robolectric.getForegroundThreadScheduler().pause();
-
-        boolean actual = behavior.onDependentViewChanged(coordinator, child, snackbarLayout);
-
-        Assertions.assertThat(actual).isTrue();
-        assertThat(behavior.translationAnimator).isStarted();
-
-        Robolectric.getForegroundThreadScheduler().unPause();
-
         assertThat(child).hasTranslationY(-110f);
     }
 
@@ -175,22 +138,6 @@ public class SnackbarAwareMoveBehaviorTest {
         boolean actual = behavior.onDependentViewChanged(coordinator, child, snackbarLayout);
 
         Assertions.assertThat(actual).isFalse();
-    }
-
-    @Test
-    public void givenAnimatorAlreadyStarted_whenOnDependentViewChanged_thenAnimatorCancelled() {
-        View child = new View(RuntimeEnvironment.application);
-        child.setBottom(100);
-        child.setTop(0);
-        setupCoordinatorLayout(child);
-        Robolectric.getForegroundThreadScheduler().pause();
-        behavior.translationAnimator = animator;
-        when(animator.isRunning()).thenReturn(true);
-
-        behavior.onDependentViewChanged(coordinator, child, snackbarLayout);
-
-        verify(animator).cancel();
-        verify(animator).start();
     }
 
     private void setupCoordinatorLayout(View child) {

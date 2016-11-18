@@ -16,11 +16,9 @@
 
 package com.ocadotechnology.snackbarawaremovebehavior;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -28,11 +26,8 @@ import java.util.List;
 
 public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> {
 
-    private static final float FRACTION_OF_HEIGHT_AT_WHICH_TO_ANIMATE = 0.667f;
-
-    ObjectAnimator translationAnimator;
     private float verticalTranslation;
-    private View[] viewsToAnimate;
+    private View[] viewsToTranslate;
 
     public SnackbarAwareMoveBehavior() {
         super();
@@ -67,61 +62,23 @@ public class SnackbarAwareMoveBehavior extends CoordinatorLayout.Behavior<View> 
             return false;
         }
 
-        translateView(view, targetVerticalTranslation);
+        translateViews(view, targetVerticalTranslation);
         return true;
     }
 
+    private void translateViews(View view, float targetVerticalTranslation) {
+        if (viewsToTranslate == null) {
+            viewsToTranslate = getAnimatingViewsProvider().getViews(view);
+        }
+
+        for (View viewToAnimate : viewsToTranslate) {
+            translateView(viewToAnimate, targetVerticalTranslation);
+        }
+    }
+
     private void translateView(View view, float targetVerticalTranslation) {
-        cancelAnimatorIfRunning();
-
-        if (viewsToAnimate == null) {
-            viewsToAnimate = getAnimatingViewsProvider().getViews(view);
-        }
-
-        for (View viewToAnimate : viewsToAnimate) {
-            animateView(viewToAnimate, targetVerticalTranslation);
-        }
-    }
-
-    private void animateView(View view, float targetVerticalTranslation) {
-        float currentVerticalTranslation = view.getTranslationY();
-        if (shouldAnimateTranslation(view, targetVerticalTranslation,
-                currentVerticalTranslation)) {
-            updateTranslationWithAnimation(view, targetVerticalTranslation,
-                    currentVerticalTranslation);
-        } else {
-            view.setTranslationY(targetVerticalTranslation);
-        }
+        view.setTranslationY(targetVerticalTranslation);
         verticalTranslation = targetVerticalTranslation;
-    }
-
-    private void cancelAnimatorIfRunning() {
-        if (translationAnimator != null && translationAnimator.isRunning()) {
-            translationAnimator.cancel();
-        }
-    }
-
-    private void updateTranslationWithAnimation(View view, float targetVerticalTranslation,
-                                                float currentVerticalTranslation) {
-        if (translationAnimator == null) {
-            createAnimator(view, targetVerticalTranslation, currentVerticalTranslation);
-        }
-        translationAnimator.start();
-    }
-
-    private void createAnimator(View view, float targetVerticalTranslation,
-                                float currentVerticalTranslation) {
-        translationAnimator = ObjectAnimator.ofFloat(view, "translationY",
-                currentVerticalTranslation, targetVerticalTranslation);
-        translationAnimator.setInterpolator(new FastOutSlowInInterpolator());
-    }
-
-    private boolean shouldAnimateTranslation(View view,
-                                             float targetVerticalTranslation,
-                                             float currentVerticalTranslation) {
-        float thresholdAtWhichToAnimate = view.getHeight() * FRACTION_OF_HEIGHT_AT_WHICH_TO_ANIMATE;
-        float translationDistance = currentVerticalTranslation - targetVerticalTranslation;
-        return Math.abs(translationDistance) > thresholdAtWhichToAnimate;
     }
 
     private boolean isAtTargetVerticalTranslation(float targetVerticalTranslation) {
