@@ -13,7 +13,7 @@ Within the Android Design Support library there is a `Snackbar` class, which sho
 
 Download via Gradle:
 ```groovy
-compile 'com.ocadotechnology:snackbar-aware-move-behavior:0.1.1'
+compile 'com.ocadotechnology:snackbar-aware-move-behavior:0.1.2'
 ```
 
 The library is available on Bintray (JCenter).

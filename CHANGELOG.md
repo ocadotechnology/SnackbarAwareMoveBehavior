@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.2 (22/11/16)
+
+## Fixes
+
+- Removed the animators, which were causing views to not return to their original position after Snackbars were swiped off the screen.
+
+## v0.1.1 (05/09/16)
+
+### API Changes
+
+- Made the `ViewProvider` interface public, to allow you to override the behavior to specify which views to translate.
+
 ## v0.1.0 (05/09/16)
 
 First development release.
